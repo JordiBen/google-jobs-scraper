@@ -1,0 +1,194 @@
+{
+  "title": "Google Jobs Scraper",
+  "description": "Scrape Google for Jobs listings by search query and location. Returns title, company, location, salary, posted date, job type, description, highlights and apply links. Logged-out public data only.",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "queries": {
+      "title": "Search queries",
+      "type": "array",
+      "description": "What you'd type into Google, e.g. 'data engineer', 'nurse remote'. One search per item.",
+      "editor": "stringList",
+      "minItems": 1,
+      "maxItems": 500,
+      "prefill": [
+        "software engineer"
+      ],
+      "default": [
+        "software engineer"
+      ]
+    },
+    "location": {
+      "title": "Location",
+      "type": "string",
+      "description": "City, region or country appended to the search, e.g. 'London, UK' or 'Remote'. Empty = whatever Google infers for the selected country.",
+      "editor": "textfield",
+      "maxLength": 120,
+      "prefill": "New York, NY",
+      "default": "New York, NY"
+    },
+    "countryCode": {
+      "title": "Google country",
+      "type": "string",
+      "description": "Two-letter country for google.<tld> and the proxy location.",
+      "editor": "select",
+      "enum": [
+        "us",
+        "gb",
+        "ca",
+        "au",
+        "de",
+        "fr",
+        "es",
+        "it",
+        "nl",
+        "pt",
+        "ie",
+        "in",
+        "sg",
+        "ae",
+        "il",
+        "br",
+        "mx",
+        "pl",
+        "se",
+        "ch"
+      ],
+      "default": "us",
+      "enumTitles": [
+        "United States",
+        "United Kingdom",
+        "Canada",
+        "Australia",
+        "Germany",
+        "France",
+        "Spain",
+        "Italy",
+        "Netherlands",
+        "Portugal",
+        "Ireland",
+        "India",
+        "Singapore",
+        "United Arab Emirates",
+        "Israel",
+        "Brazil",
+        "Mexico",
+        "Poland",
+        "Sweden",
+        "Switzerland"
+      ]
+    },
+    "languageCode": {
+      "title": "Language (hl)",
+      "type": "string",
+      "editor": "textfield",
+      "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+      "default": "en",
+      "description": "Google interface language, e.g. \"en\", \"de\", \"fr\", \"en-GB\". Filters are phrased in this language (en, de, fr, es supported; others fall back to English)."
+    },
+    "datePosted": {
+      "title": "Date posted",
+      "type": "string",
+      "editor": "select",
+      "enum": [
+        "any",
+        "today",
+        "3days",
+        "week",
+        "month"
+      ],
+      "enumTitles": [
+        "Any time",
+        "Past 24 hours",
+        "Past 3 days",
+        "Past week",
+        "Past month"
+      ],
+      "default": "any",
+      "sectionCaption": "Filters",
+      "description": "Only jobs posted within this window."
+    },
+    "employmentType": {
+      "title": "Employment type",
+      "type": "array",
+      "editor": "select",
+      "items": {
+        "type": "string",
+        "enum": [
+          "FULLTIME",
+          "PARTTIME",
+          "CONTRACTOR",
+          "INTERN"
+        ],
+        "enumTitles": [
+          "Full-time",
+          "Part-time",
+          "Contractor",
+          "Internship"
+        ]
+      },
+      "description": "Leave empty for all."
+    },
+    "remoteOnly": {
+      "title": "Remote / work from home only",
+      "type": "boolean",
+      "default": false,
+      "description": "Adds Google's \"Remote\" / \"Work from home\" refinement.",
+      "editor": "checkbox"
+    },
+    "maxJobsPerQuery": {
+      "title": "Max jobs per query",
+      "type": "integer",
+      "description": "Google shows 10 jobs per search. Beyond 10, the Actor runs refined searches (date windows, job types, seniority) and removes duplicates, so very broad queries reach 50-150 unique jobs; narrow ones may return fewer.",
+      "minimum": 1,
+      "maximum": 300,
+      "default": 50,
+      "sectionCaption": "Limits & output",
+      "editor": "number"
+    },
+    "maxJobsTotal": {
+      "title": "Max jobs in total",
+      "type": "integer",
+      "description": "Hard cap across all queries (controls cost). 0 = no cap besides your run's max charge.",
+      "minimum": 0,
+      "maximum": 100000,
+      "default": 0,
+      "editor": "number"
+    },
+    "includeFullDescription": {
+      "title": "Include full description & all apply links",
+      "type": "boolean",
+      "description": "Include the job description and job highlights (qualifications, responsibilities, benefits). Google ships these with the listing, so there is no extra charge.",
+      "default": true,
+      "editor": "checkbox"
+    },
+    "onlyNewSinceLastRun": {
+      "title": "Only jobs not returned by my previous runs",
+      "type": "boolean",
+      "description": "Perfect for daily job alerts. Dedupe by Google job ID + title/company hash.",
+      "default": false,
+      "editor": "checkbox"
+    },
+    "dedupeKey": {
+      "title": "Dedupe key",
+      "type": "string",
+      "description": "Separate dedupe memories for different alert schedules.",
+      "default": "default",
+      "pattern": "^[a-zA-Z0-9-]{1,40}$",
+      "editor": "textfield"
+    },
+    "maxConcurrency": {
+      "title": "Max concurrency",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 10,
+      "description": "Parallel Google requests.",
+      "sectionCaption": "Advanced",
+      "editor": "number"
+    }
+  },
+  "required": [
+    "queries"
+  ]
+}

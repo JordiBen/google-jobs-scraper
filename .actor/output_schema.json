@@ -1,0 +1,18 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Google Jobs scraper output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "template": "{{links.apiDefaultDatasetUrl}}/items",
+      "title": "Jobs",
+      "description": "One item per job listing: title, company, location, parsed salary, job type, posted date, description and apply links."
+    },
+    "summary": {
+      "type": "string",
+      "title": "Run summary",
+      "description": "Run statistics and the effective input.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+    }
+  }
+}

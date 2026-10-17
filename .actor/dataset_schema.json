@@ -1,0 +1,322 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": true,
+    "required": [
+      "jobId",
+      "query",
+      "countryCode",
+      "position",
+      "title",
+      "shareUrl",
+      "scrapedAt",
+      "fetchPath",
+      "applyOptions",
+      "highlights",
+      "isRemote"
+    ],
+    "properties": {
+      "jobId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "query": {
+        "type": "string"
+      },
+      "searchLocation": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "countryCode": {
+        "type": "string"
+      },
+      "position": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "title": {
+        "type": "string",
+        "minLength": 1
+      },
+      "companyName": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "companyLogoUrl": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "location": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "isRemote": {
+        "type": "boolean"
+      },
+      "via": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "postedAtText": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "postedAt": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      },
+      "employmentType": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "employmentTypeText": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "salaryText": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "salaryMin": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "salaryMax": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "salaryCurrency": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[A-Z]{3}$"
+      },
+      "salaryPeriod": {
+        "enum": [
+          "HOUR",
+          "DAY",
+          "WEEK",
+          "MONTH",
+          "YEAR",
+          null
+        ]
+      },
+      "qualificationsSummary": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "benefitsSummary": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "description": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "highlights": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "title",
+            "items"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "applyOptions": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "publisher",
+            "url"
+          ],
+          "properties": {
+            "publisher": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string",
+              "pattern": "^https?://"
+            }
+          }
+        }
+      },
+      "shareUrl": {
+        "type": "string",
+        "pattern": "^https://"
+      },
+      "scrapedAt": {
+        "type": "string"
+      },
+      "fetchPath": {
+        "enum": [
+          "serp-proxy",
+          "browser"
+        ]
+      }
+    }
+  },
+  "views": {
+    "overview": {
+      "title": "Jobs",
+      "transformation": {
+        "fields": [
+          "title",
+          "companyName",
+          "location",
+          "salaryText",
+          "employmentType",
+          "postedAtText",
+          "via",
+          "query",
+          "shareUrl"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "title": {
+            "label": "Job title",
+            "format": "text"
+          },
+          "companyName": {
+            "label": "Company",
+            "format": "text"
+          },
+          "salaryText": {
+            "label": "Salary",
+            "format": "text"
+          },
+          "shareUrl": {
+            "label": "Open",
+            "format": "link"
+          },
+          "location": {
+            "label": "Location",
+            "format": "text"
+          },
+          "employmentType": {
+            "label": "Type",
+            "format": "text"
+          },
+          "postedAtText": {
+            "label": "Posted",
+            "format": "text"
+          },
+          "via": {
+            "label": "Via",
+            "format": "text"
+          },
+          "query": {
+            "label": "Query",
+            "format": "text"
+          }
+        }
+      }
+    },
+    "salaries": {
+      "title": "Salaries (parsed)",
+      "transformation": {
+        "fields": [
+          "title",
+          "companyName",
+          "location",
+          "salaryMin",
+          "salaryMax",
+          "salaryCurrency",
+          "salaryPeriod",
+          "salaryText"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "salaryMin": {
+            "format": "number"
+          },
+          "salaryMax": {
+            "format": "number"
+          }
+        }
+      }
+    },
+    "apply": {
+      "title": "Apply links",
+      "transformation": {
+        "fields": [
+          "title",
+          "companyName",
+          "applyOptions"
+        ],
+        "unwind": [
+          "applyOptions"
+        ]
+      },
+      "display": {
+        "component": "table"
+      }
+    },
+    "details": {
+      "title": "Full details",
+      "transformation": {
+        "fields": [
+          "title",
+          "companyName",
+          "description",
+          "highlights",
+          "isRemote",
+          "postedAt"
+        ]
+      },
+      "display": {
+        "component": "table"
+      }
+    }
+  }
+}
