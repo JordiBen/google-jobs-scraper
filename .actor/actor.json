@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "google-jobs-scraper",
-  "title": "Google Jobs Scraper – Listings, Salaries & Apply Links",
-  "description": "Scrape Google for Jobs by keyword & location: title, company, salary (parsed), job type, posted date, description, apply links. $3 per 1,000 jobs.",
+  "title": "Google Jobs Scraper: Job Listings, Salaries & Apply Links",
+  "description": "Scrape Google for Jobs by keyword and location: title, company, parsed salary range, job type, posted date, full description, highlights and every apply link (LinkedIn, Indeed, careers pages). Only-new mode for job alerts. $3 per 1,000 jobs.",
   "version": "1.0",
   "buildTag": "latest",
   "input": "./input_schema.json",
